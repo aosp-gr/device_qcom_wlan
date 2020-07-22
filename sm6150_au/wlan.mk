@@ -43,8 +43,9 @@ ifeq ($(TARGET_USES_AOSP_FOR_WLAN), true)
 WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 WIFI_HIDL_FEATURE_AWARE := true
 else
-# Value-added AOSP: STA + SAP + P2P or NAN
-WIFI_HAL_INTERFACE_COMBINATIONS := {{{STA}, 1}, {{AP}, 1}, {{P2P, NAN}, 1}}
+# Value-added AOSP: STA + SAP + P2P or STA + P2P/NAN
+WIFI_HAL_INTERFACE_COMBINATIONS := {{{STA}, 1}, {{AP}, 1}, {{P2P}, 1}},\
+	                               {{{STA}, 1}, {{P2P, NAN}, 1}}
 endif
 
 # Override WLAN configurations
@@ -52,7 +53,8 @@ endif
 # # To disable WLAN_CFG_1/WLAN_CFG_3 and enable WLAN_CFG_2 for <wlan_chip>
 # # (<wlan_chip> is from $TARGET_WLAN_CHIP).
 # #   WLAN_CFG_OVERRIDE_<wlan_chip> := WLAN_CFG_1=n WLAN_CFG_2=y WLAN_CFG_3=n
-WLAN_CFG_OVERRIDE_qcn7605 := CONFIG_IPA_OFFLOAD=y
+WLAN_CFG_OVERRIDE_qca6390 := CONFIG_FEATURE_COEX=y CONFIG_QCACLD_FEATURE_BTC_CHAIN_MODE=y
+WLAN_CFG_OVERRIDE_qcn7605 := CONFIG_IPA_OFFLOAD=y CONFIG_FEATURE_COEX=y CONFIG_QCACLD_FEATURE_BTC_CHAIN_MODE=y
 
 # Enable vendor properties.
 PRODUCT_PROPERTY_OVERRIDES += \
